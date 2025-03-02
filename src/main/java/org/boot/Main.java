@@ -14,8 +14,41 @@ public class Main {
         myArrayList.add("JavaScript");
         myArrayList.add("Python");
         System.out.println(myArrayList);
+        System.out.println(myArrayList.size());
 
-        myArrayList.lastIndexOf("Python1");
-        System.out.println(myArrayList.lastIndexOf("Python1"));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

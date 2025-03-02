@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class MyArrayList<E> {
-    private final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
     private Object[] elements;
     private int size = 0;
 
@@ -24,13 +24,16 @@ public class MyArrayList<E> {
     }
 
     public void add(int index, E element) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
         if (elements.length == size) {
             increaseCapacity();
         }
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
-        }
-        elements[size++] = element;
+       System.arraycopy(elements, index, elements,
+               index + 1, size - index);
+        size++;
+        elements[index] = element;
     }
 
     public E get(int index) {
@@ -48,12 +51,14 @@ public class MyArrayList<E> {
         elements[--size] = null;
     }
 
-    public void remove(Object o) {
+    public void remove(E o) {
         int index = indexOf(o);
-        remove(index);
+        if(index != -1){
+            remove(index);
+        }
     }
 
-    public void set(int index, Object element) {
+    public void set(int index, E element) {
         checkIndex(index);
         elements[index] = element;
     }
@@ -67,35 +72,35 @@ public class MyArrayList<E> {
     }
 
     public void clear() {
-
+        size = 0;
+        elements = new Object[DEFAULT_CAPACITY];
     }
 
-//    public boolean contains(Object o){
-//
-//    }
-//
-    public int indexOf(Object o){
-        for (int i = 0; i < elements.length; i++) {
+    public boolean contains(E o){
+        return indexOf(o) != -1;
+    }
+
+    public int indexOf(E o){
+        for (int i = 0; i < size; i++) {
             if (o.equals(elements[i])) {
                 return i;
             }
         }
-        throw new IndexOutOfBoundsException("Index out of bounds");
+        return -1;
     }
 
-    public int firstIndexOf(Object o) {
+    public int firstIndexOf(E o) {
         return indexOf(o);
     }
 
-    public int lastIndexOf(Object o){
-        for (int i = elements.length - 1; i >= 0; i--) {
+    public int lastIndexOf(E o){
+        for (int i = size - 1; i >= 0; i--) {
             if(o.equals(elements[i])) {
                 return i;
             }
         }
-        throw new NoSuchElementException("Element not found");
+        return -1;
     }
-
 
     @Override
     public String toString() {
