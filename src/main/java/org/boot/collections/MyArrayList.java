@@ -1,9 +1,8 @@
 package org.boot.collections;
 
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
-public class MyArrayList<E> {
+public class MyArrayList<E> implements CustomList<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private Object[] elements;
     private int size = 0;
@@ -16,6 +15,7 @@ public class MyArrayList<E> {
         elements = new Object[initialCapacity];
     }
 
+    @Override
     public void add(E element) {
         if (elements.length == size) {
             increaseCapacity();
@@ -23,6 +23,7 @@ public class MyArrayList<E> {
         elements[size++] = element;
     }
 
+    @Override
     public void add(int index, E element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -30,17 +31,19 @@ public class MyArrayList<E> {
         if (elements.length == size) {
             increaseCapacity();
         }
-       System.arraycopy(elements, index, elements,
-               index + 1, size - index);
+        System.arraycopy(elements, index, elements,
+                index + 1, size - index);
         size++;
         elements[index] = element;
     }
 
+    @Override
     public E get(int index) {
         checkIndex(index);
         return (E) elements[index];
     }
 
+    @Override
     public void remove(int index) {
         checkIndex(index);
         int newMoved = size - index - 1;
@@ -51,51 +54,55 @@ public class MyArrayList<E> {
         elements[--size] = null;
     }
 
+    @Override
+    public E getFirst() {
+        return (E) elements[0];
+    }
+
+    @Override
+    public E getLast() {
+        return (E) elements[size - 1];
+    }
+
+    @Override
     public void remove(E o) {
         int index = indexOf(o);
-        if(index != -1){
+        if (index != -1) {
             remove(index);
         }
     }
 
+    @Override
     public void set(int index, E element) {
         checkIndex(index);
         elements[index] = element;
     }
 
-    public int size() {
+    @Override
+    public int getSize() {
         return size;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public void clear() {
         size = 0;
         elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public boolean contains(E o){
+    @Override
+    public boolean contains(E o) {
         return indexOf(o) != -1;
     }
 
-    public int indexOf(E o){
+    @Override
+    public int indexOf(E o) {
         for (int i = 0; i < size; i++) {
             if (o.equals(elements[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public int firstIndexOf(E o) {
-        return indexOf(o);
-    }
-
-    public int lastIndexOf(E o){
-        for (int i = size - 1; i >= 0; i--) {
-            if(o.equals(elements[i])) {
                 return i;
             }
         }

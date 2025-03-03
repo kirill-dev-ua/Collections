@@ -14,8 +14,10 @@ public class Main {
         myArrayList.add("JavaScript");
         myArrayList.add("Python");
         System.out.println(myArrayList);
-        System.out.println(myArrayList.size());
+        System.out.println(myArrayList.getSize());
 
+        System.out.println(myArrayList.getFirst());
+        System.out.println(myArrayList.getLast());
     }
 }
 
