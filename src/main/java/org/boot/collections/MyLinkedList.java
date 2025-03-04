@@ -1,8 +1,8 @@
 package org.boot.collections;
 
-public class MyLinkedList<T> implements CustomList<T>{
+public class MyLinkedList<T> implements CustomList<T> {
 
-    public static class Node<T>{
+    public static class Node<T> {
         T data;
         Node<T> next;
         Node<T> prev;
@@ -20,12 +20,35 @@ public class MyLinkedList<T> implements CustomList<T>{
 
     @Override
     public void add(T newObject) {
-
+        Node<T> newNode = new Node<>(newObject);
+        if (head == null) {
+            head = tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+        size++;
     }
 
     @Override
     public void add(int index, T newObject) {
-
+        Node<T> newNode = new Node<>(newObject);
+        if (index == 0) {
+            newNode.next = head;
+            head = newNode;
+        } else if (index == size - 1) {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        } else {
+            Node<T> prevNode = head;
+            for (int i = 0; i < index - 1; i++) {
+                newNode.next = prevNode.next;
+                newNode.prev = prevNode;
+                prevNode.next = newNode;
+            }
+        }
+        size++;
     }
 
     @Override
@@ -86,6 +109,11 @@ public class MyLinkedList<T> implements CustomList<T>{
 
     @Override
     public int indexOf(T o) {
+        for (int i = 0; i < size - 1; i++) {
+            if(o.equals(get(i))){
+                return i;
+            }
+        }
         return 0;
     }
 }

@@ -1,23 +1,20 @@
 package org.boot;
 
 import org.boot.collections.MyArrayList;
+import org.boot.collections.MyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
 
-        MyArrayList<String> myArrayList = new MyArrayList<>();
-        myArrayList.add("Hello");
-        myArrayList.add("World");
-        myArrayList.add("Java");
-        myArrayList.add("Python");
-        myArrayList.add("C++");
-        myArrayList.add("JavaScript");
-        myArrayList.add("Python");
-        System.out.println(myArrayList);
-        System.out.println(myArrayList.getSize());
+        MyLinkedList<String> list = new MyLinkedList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("f");
 
-        System.out.println(myArrayList.getFirst());
-        System.out.println(myArrayList.getLast());
+        System.out.println(list.indexOf("c"));
     }
 }
 
