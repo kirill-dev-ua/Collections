@@ -42,11 +42,12 @@ public class MyLinkedList<T> implements CustomList<T> {
             tail = newNode;
         } else {
             Node<T> prevNode = head;
-            for (int i = 0; i < index - 1; i++) {
-                newNode.next = prevNode.next;
-                newNode.prev = prevNode;
-                prevNode.next = newNode;
+            for(int i = 0; i < index - 1; i++){
+                prevNode = prevNode.next;
             }
+            newNode.next = prevNode.next;
+            newNode.prev = prevNode;
+            prevNode.next = newNode;
         }
         size++;
     }
@@ -59,8 +60,13 @@ public class MyLinkedList<T> implements CustomList<T> {
     }
 
     @Override
-    public void set(int index, T newObject) {
-
+    public T set(int index, T newObject) {
+        Node<T> node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        node.data = newObject;
+        return node.data;
     }
 
     @Override
@@ -70,17 +76,52 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public boolean contains(T element) {
+        Node<T> node = head;
+        for (int i = 0; i < size - 1; i++) {
+            node = node.next;
+            if (element.equals(node.data)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public void remove(int index) {
+    public T remove(int index) {
+        T removeElement;
 
+        if(index == 0){
+            removeElement = head.data;
+            head = head.next;
+        }else if(index == size - 1){
+            removeElement = tail.data;
+            tail = tail.prev;
+        }else{
+            Node<T> prevNode = head;
+            for(int i = 0; i < index - 1; i++){
+                prevNode = prevNode.next;
+            }
+
+            Node<T> nodeToRemove = prevNode.next;
+            removeElement = nodeToRemove.data;
+
+            prevNode.next = nodeToRemove.next;
+            nodeToRemove.next = nodeToRemove.prev;
+        }
+
+        size--;
+        return removeElement;
     }
 
     @Override
     public void remove(T element) {
-
+        Node<T> node = head;
+        for (int i = 0; i < size - 1; i++) {
+            if(element.equals(node.data)) {
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }
+        }
     }
 
     @Override
@@ -110,7 +151,7 @@ public class MyLinkedList<T> implements CustomList<T> {
     @Override
     public int indexOf(T o) {
         for (int i = 0; i < size - 1; i++) {
-            if(o.equals(get(i))){
+            if (o.equals(get(i))) {
                 return i;
             }
         }

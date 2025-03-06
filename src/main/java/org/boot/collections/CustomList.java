@@ -7,13 +7,13 @@ public interface CustomList<T> {
 
     void clear();
 
-    void set(int index, T newObject);
+    T set(int index, T newObject);
 
     boolean isEmpty();
 
     boolean contains(T element);
 
-    void remove(int index);
+    T remove(int index);
 
     void remove(T element);
 
@@ -24,7 +24,6 @@ public interface CustomList<T> {
     int getSize();
 
     T get(int index);
-
 
     int indexOf(T o);
 }

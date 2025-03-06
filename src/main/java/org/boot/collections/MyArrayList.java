@@ -44,7 +44,7 @@ public class MyArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public void remove(int index) {
+    public E remove(int index) {
         checkIndex(index);
         int newMoved = size - index - 1;
         if (newMoved > 0) {
@@ -52,6 +52,7 @@ public class MyArrayList<E> implements CustomList<E> {
                     elements, index, newMoved);
         }
         elements[--size] = null;
+        return null;
     }
 
     @Override
@@ -73,9 +74,10 @@ public class MyArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public void set(int index, E element) {
+    public E set(int index, E element) {
         checkIndex(index);
         elements[index] = element;
+        return null;
     }
 
     @Override
