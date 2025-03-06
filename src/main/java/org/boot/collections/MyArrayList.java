@@ -25,9 +25,7 @@ public class MyArrayList<E> implements CustomList<E> {
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        checkIndex(index);
         if (elements.length == size) {
             increaseCapacity();
         }
@@ -81,7 +79,7 @@ public class MyArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return size;
     }
 

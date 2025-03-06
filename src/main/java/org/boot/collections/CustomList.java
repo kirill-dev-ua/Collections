@@ -21,7 +21,7 @@ public interface CustomList<T> {
 
     T getLast();
 
-    int getSize();
+    int size();
 
     T get(int index);
 

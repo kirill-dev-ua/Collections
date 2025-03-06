@@ -32,6 +32,7 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public void add(int index, T newObject) {
+        checkIndex(index);
         Node<T> newNode = new Node<>(newObject);
         if (index == 0) {
             newNode.next = head;
@@ -61,6 +62,7 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public T set(int index, T newObject) {
+        checkIndex(index);
         Node<T> node = head;
         for (int i = 0; i < index; i++) {
             node = node.next;
@@ -88,6 +90,7 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public T remove(int index) {
+        checkIndex(index);
         T removeElement;
 
         if(index == 0){
@@ -135,12 +138,13 @@ public class MyLinkedList<T> implements CustomList<T> {
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return size;
     }
 
     @Override
     public T get(int index) {
+        checkIndex(index);
         Node<T> node = head;
         for (int i = 0; i < index; i++) {
             node = node.next;
@@ -156,5 +160,11 @@ public class MyLinkedList<T> implements CustomList<T> {
             }
         }
         return 0;
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 }
