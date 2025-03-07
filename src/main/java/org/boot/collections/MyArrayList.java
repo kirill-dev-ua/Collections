@@ -1,6 +1,7 @@
 package org.boot.collections;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class MyArrayList<E> implements CustomList<E> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -42,7 +43,7 @@ public class MyArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public E remove(int index) {
+    public void remove(int index) {
         checkIndex(index);
         int newMoved = size - index - 1;
         if (newMoved > 0) {
@@ -50,7 +51,6 @@ public class MyArrayList<E> implements CustomList<E> {
                     elements, index, newMoved);
         }
         elements[--size] = null;
-        return null;
     }
 
     @Override
@@ -64,11 +64,12 @@ public class MyArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public void remove(E o) {
+    public boolean remove(E o) {
         int index = indexOf(o);
         if (index != -1) {
             remove(index);
         }
+        return false;
     }
 
     @Override
@@ -107,6 +108,11 @@ public class MyArrayList<E> implements CustomList<E> {
             }
         }
         return -1;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return null;
     }
 
     @Override

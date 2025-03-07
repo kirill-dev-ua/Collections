@@ -1,5 +1,7 @@
 package org.boot.collections;
 
+import java.util.Iterator;
+
 public interface CustomList<T> {
     void add(T newObject);
 
@@ -13,9 +15,9 @@ public interface CustomList<T> {
 
     boolean contains(T element);
 
-    T remove(int index);
+    void remove(int index);
 
-    void remove(T element);
+    boolean remove(T element);
 
     T getFirst();
 
@@ -26,4 +28,6 @@ public interface CustomList<T> {
     T get(int index);
 
     int indexOf(T o);
+
+    Iterator<T> iterator();
 }

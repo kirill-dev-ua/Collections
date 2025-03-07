@@ -1,5 +1,7 @@
 package org.boot.collections;
 
+import java.util.Iterator;
+
 public class MyLinkedList<T> implements CustomList<T> {
 
     public static class Node<T> {
@@ -89,42 +91,36 @@ public class MyLinkedList<T> implements CustomList<T> {
     }
 
     @Override
-    public T remove(int index) {
+    public void remove(int index) {
         checkIndex(index);
-        T removeElement;
 
         if(index == 0){
-            removeElement = head.data;
             head = head.next;
         }else if(index == size - 1){
-            removeElement = tail.data;
             tail = tail.prev;
         }else{
             Node<T> prevNode = head;
             for(int i = 0; i < index - 1; i++){
                 prevNode = prevNode.next;
             }
-
             Node<T> nodeToRemove = prevNode.next;
-            removeElement = nodeToRemove.data;
-
             prevNode.next = nodeToRemove.next;
             nodeToRemove.next = nodeToRemove.prev;
         }
-
         size--;
-        return removeElement;
     }
 
     @Override
-    public void remove(T element) {
+    public boolean remove(T element) {
         Node<T> node = head;
         for (int i = 0; i < size - 1; i++) {
             if(element.equals(node.data)) {
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
+                return true;
             }
         }
+        return false;
     }
 
     @Override
@@ -160,6 +156,11 @@ public class MyLinkedList<T> implements CustomList<T> {
             }
         }
         return 0;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return null;
     }
 
     private void checkIndex(int index) {
