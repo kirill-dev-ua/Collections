@@ -3,18 +3,12 @@ package org.boot;
 import org.boot.collections.MyArrayList;
 import org.boot.collections.MyLinkedList;
 
+import java.util.Stack;
+
 public class Main {
     public static void main(String[] args) {
 
-        MyLinkedList<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        list.add("f");
-
-        System.out.println(list.indexOf("c"));
+        Stack stack = new Stack();
     }
 }
 

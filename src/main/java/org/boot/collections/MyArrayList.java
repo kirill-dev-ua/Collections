@@ -2,6 +2,8 @@ package org.boot.collections;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class MyArrayList<E> implements CustomList<E> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -112,7 +114,7 @@ public class MyArrayList<E> implements CustomList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new MyIterator();
     }
 
     @Override
@@ -128,6 +130,45 @@ public class MyArrayList<E> implements CustomList<E> {
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        MyArrayList<?> myArrayList = (MyArrayList<?>) o;
+
+        return Arrays.equals(elements, myArrayList.elements) &&
+                size == myArrayList.size;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Arrays.hashCode(elements), size);
+    }
+
+    private class MyIterator implements Iterator<E> {
+        private int cursor = 0;
+
+        @Override
+        public boolean hasNext() {
+            return cursor < size;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return (E) elements[cursor++];
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove not implemented");
         }
     }
 }
