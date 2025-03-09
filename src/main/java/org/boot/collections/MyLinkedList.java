@@ -26,6 +26,7 @@ public class MyLinkedList<T> implements CustomList<T> {
         if (head == null) {
             head = tail = newNode;
         } else {
+            newNode.prev = tail;
             tail.next = newNode;
             tail = newNode;
         }
@@ -35,22 +36,26 @@ public class MyLinkedList<T> implements CustomList<T> {
     @Override
     public void add(int index, T newObject) {
         checkIndex(index);
+
         Node<T> newNode = new Node<>(newObject);
-        if (index == 0) {
+        if(size == 0){
+            head = tail = newNode;
+        } else if (index == 0) {
             newNode.next = head;
+            head.prev = newNode;
             head = newNode;
-        } else if (index == size - 1) {
-            tail.next = newNode;
+        } else if (index == size) {
             newNode.prev = tail;
+            tail.next = newNode;
             tail = newNode;
         } else {
-            Node<T> prevNode = head;
-            for(int i = 0; i < index - 1; i++){
-                prevNode = prevNode.next;
-            }
-            newNode.next = prevNode.next;
+            Node<T> current  = getNode(index);
+            Node<T> prevNode = current.prev;
+
             newNode.prev = prevNode;
+            newNode.next = current;
             prevNode.next = newNode;
+            current.prev = newNode;
         }
         size++;
     }
@@ -65,10 +70,7 @@ public class MyLinkedList<T> implements CustomList<T> {
     @Override
     public T set(int index, T newObject) {
         checkIndex(index);
-        Node<T> node = head;
-        for (int i = 0; i < index; i++) {
-            node = node.next;
-        }
+        Node<T> node = getNode(index);
         node.data = newObject;
         return node.data;
     }
@@ -80,12 +82,13 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public boolean contains(T element) {
-        Node<T> node = head;
-        for (int i = 0; i < size - 1; i++) {
-            node = node.next;
-            if (element.equals(node.data)) {
+        Node<T> current = head;
+        while (current != null) {
+            if ((element == null && current.data == null)
+                    || (element != null && element.equals(current.data))) {
                 return true;
             }
+            current = current.next;
         }
         return false;
     }
@@ -94,31 +97,45 @@ public class MyLinkedList<T> implements CustomList<T> {
     public void remove(int index) {
         checkIndex(index);
 
-        if(index == 0){
+        if(size == 1){
+          head = tail = null;
+        } else if(index == 0){
             head = head.next;
+            head.prev = null;
         }else if(index == size - 1){
             tail = tail.prev;
+            tail.next = null;
         }else{
-            Node<T> prevNode = head;
-            for(int i = 0; i < index - 1; i++){
-                prevNode = prevNode.next;
-            }
-            Node<T> nodeToRemove = prevNode.next;
-            prevNode.next = nodeToRemove.next;
-            nodeToRemove.next = nodeToRemove.prev;
+            Node<T> toRemove = getNode(index);
+            Node<T> prevNode = toRemove.prev;
+            Node<T> nextNode = toRemove.next;
+            prevNode.next = nextNode;
+            nextNode.prev = prevNode;
         }
         size--;
     }
 
     @Override
     public boolean remove(T element) {
-        Node<T> node = head;
-        for (int i = 0; i < size - 1; i++) {
-            if(element.equals(node.data)) {
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
+        Node<T> current = head;
+        while (current != null) {
+            if (element.equals(current.data)) {
+                if (current == head) {
+                    head = head.next;
+                    if (head != null) head.prev = null;
+                }
+                else if (current == tail) {
+                    tail = tail.prev;
+                    if (tail != null) tail.next = null;
+                }
+                else {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                }
+                size--;
                 return true;
             }
+            current = current.next;
         }
         return false;
     }
@@ -150,22 +167,52 @@ public class MyLinkedList<T> implements CustomList<T> {
 
     @Override
     public int indexOf(T o) {
-        for (int i = 0; i < size - 1; i++) {
-            if (o.equals(get(i))) {
-                return i;
+        Node<T> current = head;
+        int index = 0;
+        while (current != null) {
+            if ((o == null && current.data == null)
+                    || (o != null && o.equals(current.data))) {
+                return index;
             }
+            current = current.next;
+            index++;
         }
-        return 0;
+        return -1;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new Iterator<T>() {
+            Node<T> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new java.util.NoSuchElementException();
+                }
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
+    }
+
+    private Node<T> getNode(int index) {
+        Node<T> node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        return node;
     }
 }

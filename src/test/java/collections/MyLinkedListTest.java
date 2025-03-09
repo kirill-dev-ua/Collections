@@ -36,32 +36,112 @@ public class MyLinkedListTest {
     }
 
     @Test
-    void testAddByIndex(){
-        list.add(1,"Java_test");
+    void testAddByIndex() {
+        list.add(1, "Java_test");
         assertEquals("Java_test", list.get(1));
     }
 
-//    void clear();
-//
-//    T set(int index, T newObject);
-//
-//    boolean isEmpty();
-//
+    @Test
+    void testClear() {
+        list.clear();
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    void testSetByIndex() {
+        list.set(0, "Java_test");
+        assertEquals("Java_test", list.get(0));
+    }
+
+    @Test
+    void testIsEmpty() {
+        MyLinkedList list = new MyLinkedList();
+        assertTrue(list.isEmpty());
+        list.add("Java_test");
+        list.add("Python");
+        list.add("JavaScript");
+        list.add("C++");
+        assertEquals(4, list.size());
+        list.remove(0);
+        list.remove(1);
+        assertEquals(2, list.size());
+        list.remove(0);
+        assertEquals(1, list.size());
+    }
+
+    //
 //    boolean contains(T element);
-//
-//    void remove(int index);
-//
-//    boolean remove(T element);
-//
-//    T getFirst();
-//
-//    T getLast();
-//
-//    int size();
-//
-//    T get(int index);
-//
-//    int indexOf(T o);
-//
-//    Iterator<T> iterator();
+    @Test
+    void testContains() {
+        assertFalse(list.contains("Java_test"));
+        assertTrue(list.contains("Python"));
+    }
+
+    @Test
+    void testRemoveByIndex() {
+        list.remove(1);
+        assertEquals("JavaScript", list.get(1));
+    }
+
+    @Test
+    void testRemoveByElement() {
+        list.remove("C");
+        assertEquals("C++", list.getLast());
+    }
+
+
+    @Test
+    void testFirstElement() {
+        assertEquals("Java", list.get(0));
+    }
+
+    @Test
+    void testFirstElement2() {
+        list.add(0, "Java_test");
+        assertEquals("Java_test", list.get(0));
+    }
+
+    @Test
+    void getLastElement() {
+        assertEquals("C", list.getLast());
+    }
+
+    void getLastElement2() {
+        list.add("C_test");
+        assertEquals("C_test", list.getLast());
+    }
+
+    @Test
+    void testSize() {
+        assertEquals(5, list.size());
+    }
+
+    @Test
+    void testSize2() {
+        list.add("Java_test");
+        assertEquals(6, list.size());
+    }
+
+    @Test
+    void testSize3() {
+        list.remove(1);
+        assertEquals(4, list.size());
+    }
+
+    @Test
+    void getElementByIndex() {
+        assertEquals("Java", list.get(0));
+        assertEquals(1, list2.get(0));
+    }
+
+    @Test
+    void testIndexOf() {
+        assertEquals(1, list.indexOf("Python"));
+    }
 }
+
+
+
+
+
+
