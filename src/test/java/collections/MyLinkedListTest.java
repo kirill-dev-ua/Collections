@@ -69,8 +69,6 @@ public class MyLinkedListTest {
         assertEquals(1, list.size());
     }
 
-    //
-//    boolean contains(T element);
     @Test
     void testContains() {
         assertFalse(list.contains("Java_test"));
