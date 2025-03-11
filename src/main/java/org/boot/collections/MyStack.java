@@ -6,9 +6,28 @@ import java.util.List;
 import java.util.function.IntFunction;
 
 public class MyStack<E> extends AbstractList<E> implements List<E>, CustomStack<E> {
+
+    public static class Node<E>{
+        E data;
+        Node<E> next;
+
+        public Node(E data) {
+            this.data = data;
+        }
+    }
+
+    private Node<E> top;
+    private  int size;
+
+
     @Override
     public E get(int index) {
-        return null;
+        checkIndex(index);
+        Node<E> node = top;
+        for(int i = 0; i < index; i++){
+            node = node.next;
+        }
+        return node.data;
     }
 
     @Override
@@ -74,5 +93,11 @@ public class MyStack<E> extends AbstractList<E> implements List<E>, CustomStack<
     @Override
     public void sort(Comparator<? super E> c) {
 
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 }
