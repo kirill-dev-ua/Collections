@@ -1,4 +1,4 @@
 package org.boot.collections;
 
-public class MyHashMap {
+public class MyHashSet {
 }
